@@ -3,7 +3,12 @@
 > 一个用于手指短按触发，松开释放的Library。有效解决与父级View的事件冲突
 - 效果图
 
-![preview](https://img-blog.csdn.net/20180602160203925?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![preview1](https://img-blog.csdn.net/2018060216225989?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+![preview2](https://img-blog.csdn.net/2018060216231192?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+![preview3](https://img-blog.csdn.net/20180602162321274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
 
 ## 使用步骤
 ### 引用
