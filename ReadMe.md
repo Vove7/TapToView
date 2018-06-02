@@ -24,7 +24,7 @@ Step 2. Add the dependency
 
 ```groovy
 dependencies {
-    implementation 'com.github.User:Repo:Tag'
+    implementation 'com.github.Vove7:TapToView:1.0.0'
 }
 ```
 ### 使用
