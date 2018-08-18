@@ -28,13 +28,13 @@ class DemoListAdapter(private val context: Context, dataSet: List<Data>,
                 targetView = holder.imgView,
                 position = pos,
                 itemTapEvent = itemTapEvent,
-                delayTime = 400
+                delayTime = 150
         ).register()
         Tap2View(
                 targetView = holder.imgView1,
                 position = pos,
                 itemTapEvent = itemTapEvent,
-                delayTime = 400
+                delayTime = 150
         ).register()
 
 

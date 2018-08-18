@@ -26,15 +26,15 @@ class Tap2View(
          * 取消后是否响应至父级View
          * clickParentIfCanceled 为true,则不执行tapEvent/itemTapEvent 的onClick事件
          */
-        private var clickParentIfCanceled: Boolean = false) {
-
+        private var clickParentIfCanceled: Boolean = false
+) {
 //    private var performClick = true
 
     private var isLongClick = false
 
     companion object {
         const val MOVE_PRECISION = 30
-        const val DEFAULT_DELAY_TIME = 500.toLong()
+        const val DEFAULT_DELAY_TIME = 300.toLong()
         /*fun with(context: Context): Tap2View {
             return Tap2View(context)
         }*/
@@ -98,7 +98,7 @@ class Tap2View(
         }
         var cancel = false
 
-        targetView.setOnTouchListener({ _, event ->
+        targetView.setOnTouchListener { _, event ->
             // Vog.d(this, "x: ${event.x}/${event.rawX} \t y:${event.y}/${event.rawY}")
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
@@ -179,7 +179,7 @@ class Tap2View(
                 }
             }
             true
-        })
+        }
     }
 
     private fun isBigMove(a: Double, b: Double, c: Double, d: Double): Boolean {

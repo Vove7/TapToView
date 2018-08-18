@@ -3,12 +3,15 @@
 > 一个用于手指短按触发，松开释放的Library。有效解决与父级View的事件冲突
 - 效果图
 
-![preview1](https://img-blog.csdn.net/2018060216225989?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+v1.0.1 加入揭露效果
 
-![preview2](https://img-blog.csdn.net/2018060216231192?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![preview0](screenshot/0.gif)
 
-![preview3](https://img-blog.csdn.net/20180602162321274?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3Mjk5MjQ5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+![preview1](screenshot/1.gif)
 
+![preview2](screenshot/2.gif)
+
+![preview3](screenshot/3.gif)
 
 ## 使用步骤
 ### 引用
@@ -24,7 +27,7 @@ Step 2. Add the dependency
 
 ```groovy
 dependencies {
-    implementation 'com.github.Vove7:TapToView:1.0.0'
+    implementation 'com.github.Vove7:TapToView:1.0.1'
 }
 ```
 ### 使用
@@ -83,17 +86,32 @@ class MainActivity : AppCompatActivity(), OnTapEvent {
 - ListView
 ListAdapter
 ```kotlin
+    fun testData() {
+        val list = ArrayList<Data>()
+        for (i in 0..20) {
+            list.add(Data("123", R.mipmap.ic_launcher))
+        }
 
-fun testData() {
-    //注意itemTapEvent
-    listView.adapter = DemoListAdapter(this, list, itemTapEvent = object : OnItemTapEvent {
+        listView.adapter = DemoListAdapter(this, list, itemTapEvent = object : OnItemTapEvent {
             override fun onClick(position: Int, v: View, tap2View: Tap2View) {
                 Toast.makeText(this@ListActivity, "点击$position", Toast.LENGTH_SHORT).show()
             }
 
             override fun onTapSuccess(position: Int, tap2View: Tap2View, triggerX: Int, triggerY: Int) {
-                popW = PopUtil.createPreViewImage(this@ListActivity, getDrawable(R.drawable.a))
-                popW.showAtLocation(listView, Gravity.CENTER, 0, 0)    
+                when (tap2View.targetView.id) {
+                    R.id.img -> {
+                        popW = PopUtil.createPopCard(this@ListActivity, "Hello ~ No.$position")
+                        popW!!.animationStyle = R.style.pop_anim
+                        popW!!.showAtLocation(listView, Gravity.TOP or Gravity.START,
+                                triggerX - (popW!!.contentView.measuredWidth / 2),
+                                triggerY - popW!!.contentView.measuredHeight - 50)
+                    }
+                    R.id.img1 -> {
+                        popW = PopUtil.createPreViewImageAndShow(this@ListActivity, listView, getDrawable(R.drawable.a)
+                                , fingerPoint = Point(triggerX, triggerY))
+                    }
+                }
+//                Toast.makeText(this@ListActivity, "触发", Toast.LENGTH_SHORT).show()
             }
 
             override fun onTapCancel(position: Int, tap2View: Tap2View) {
@@ -101,14 +119,28 @@ fun testData() {
             }
 
             override fun onTapRelease(position: Int, tap2View: Tap2View) {
-                popW.dismiss()
+                popW?.dismiss()
+//                Toast.makeText(this@ListActivity, "释放", Toast.LENGTH_SHORT).show()
             }
 
             override fun onMove(position: Int, tap2View: Tap2View, event: MotionEvent, dx: Double, dy: Double) {
-               
+                when (tap2View.targetView.id) {
+                    R.id.img -> {
+                        Vog.d(this, "dx: $dx dy:$dy")
+//                popW.contentView.alpha = abs(dx / dy).toFloat()
+                        val p = popW!!
+                        p.update(event.rawX.toInt() - (p.contentView.width / 2),
+                                event.rawY.toInt() - p.contentView.height - 20,
+                                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                        )
+                    }
+                    R.id.img1 -> {
+
+                    }
+                }
             }
         }, listView = listView)
- }
+    }
 ```
 
 ```kotlin
@@ -125,16 +157,26 @@ class DemoListAdapter(private val context: Context, dataSet: List<Data>,
         holder.imgView1.setImageResource(item.imgId)
 
         Tap2View(
+                targetView = holder.imgView,
+                position = pos,
+                itemTapEvent = itemTapEvent,
+                delayTime = 150
+        ).register()
+        Tap2View(
                 targetView = holder.imgView1,
                 position = pos,
                 itemTapEvent = itemTapEvent,
-                delayTime = 400
+                delayTime = 150
         ).register()
+
+
+    }
     }
 }
 
 class DemoHolder(itemView: View) : BaseListAdapter.ViewHolder(itemView) {
     var textView: TextView = itemView.findViewById(R.id.text)
+    var imgView: ImageView = itemView.findViewById(R.id.img)
     var imgView1: ImageView = itemView.findViewById(R.id.img1)
 }
 
@@ -167,9 +209,9 @@ object PopUtil {
      * gasBlur : 背景使用高斯模糊
      * background 背景 Activity==null时启用
      */
-    fun createPreViewImage(context: Context, previewDrawable: Drawable,
-                           gasBlur:Boolean = true, background: Drawable? = null): PopupWindow 
-      
+    fun createPreViewImageAndShow(context: Context, parent: View, previewDrawable: Drawable,
+                                  gasBlur: Boolean = true, background: Drawable? = null,
+                                  cirReveal: Boolean = true, fingerPoint: Point? = null): PopupWindow
 }
 ```
 # 已知 'Bug'

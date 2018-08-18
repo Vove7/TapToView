@@ -1,5 +1,6 @@
 package cn.vove7.taptoview
 
+import android.graphics.Point
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -20,7 +21,7 @@ import cn.vove7.vog.Vog
 class ListActivity : AppCompatActivity() {
 
     lateinit var listView: ListView
-    lateinit var popW: PopupWindow
+    var popW: PopupWindow? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
@@ -28,6 +29,14 @@ class ListActivity : AppCompatActivity() {
         testData()
     }
 
+    /**
+     * 防止WindowsLeak
+     */
+    override fun onPause() {
+        if (popW?.isShowing == true)
+            popW?.dismiss()
+        super.onPause()
+    }
 
     fun testData() {
         val list = ArrayList<Data>()
@@ -44,14 +53,14 @@ class ListActivity : AppCompatActivity() {
                 when (tap2View.targetView.id) {
                     R.id.img -> {
                         popW = PopUtil.createPopCard(this@ListActivity, "Hello ~ No.$position")
-                        popW.animationStyle = R.style.pop_anim
-                        popW.showAtLocation(listView, Gravity.TOP or Gravity.START,
-                                triggerX - (popW.contentView.measuredWidth / 2),
-                                triggerY - popW.contentView.measuredHeight - 50)
+                        popW!!.animationStyle = R.style.pop_anim
+                        popW!!.showAtLocation(listView, Gravity.TOP or Gravity.START,
+                                triggerX - (popW!!.contentView.measuredWidth / 2),
+                                triggerY - popW!!.contentView.measuredHeight - 50)
                     }
                     R.id.img1 -> {
-                        popW = PopUtil.createPreViewImage(this@ListActivity, getDrawable(R.drawable.a))
-                        popW.showAtLocation(listView, Gravity.CENTER, 0, 0)
+                        popW = PopUtil.createPreViewImageAndShow(this@ListActivity, listView, getDrawable(R.drawable.a)
+                                , fingerPoint = Point(triggerX, triggerY))
                     }
                 }
 //                Toast.makeText(this@ListActivity, "触发", Toast.LENGTH_SHORT).show()
@@ -62,7 +71,7 @@ class ListActivity : AppCompatActivity() {
             }
 
             override fun onTapRelease(position: Int, tap2View: Tap2View) {
-                popW.dismiss()
+                popW?.dismiss()
 //                Toast.makeText(this@ListActivity, "释放", Toast.LENGTH_SHORT).show()
             }
 
@@ -71,11 +80,11 @@ class ListActivity : AppCompatActivity() {
                     R.id.img -> {
                         Vog.d(this, "dx: $dx dy:$dy")
 //                popW.contentView.alpha = abs(dx / dy).toFloat()
-                        popW.update(event.rawX.toInt() - (popW.contentView.width / 2),
-                                event.rawY.toInt() - popW.contentView.height - 20,
+                        val p = popW!!
+                        p.update(event.rawX.toInt() - (p.contentView.width / 2),
+                                event.rawY.toInt() - p.contentView.height - 20,
                                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
                         )
-
                     }
                     R.id.img1 -> {
 
