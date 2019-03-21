@@ -1,8 +1,6 @@
-package cn.vove7.vog
-
+package cn.vove7.tap2view
 
 import android.util.Log
-import com.google.gson.Gson
 
 object Vog {
     const val v = 0
@@ -12,8 +10,8 @@ object Vog {
     const val e = 4
     const val a = 5
     var output_level = 0
-    fun init(l:Int){
-        output_level=l
+    fun init(l: Int) {
+        output_level = l
     }
 
     fun d(o: Any, msg: String) {
@@ -30,25 +28,24 @@ object Vog {
 
     fun i(o: Any, msg: Any) {
         if (output_level <= i) {
-            Log.i(o.javaClass.simpleName, "  ----> " + Gson().toJson(msg))
+            Log.i(o.javaClass.simpleName, "  ----> " + msg)
         }
     }
 
     fun w(o: Any, msg: Any) {
         if (output_level <= w) {
-            Log.w(o.javaClass.simpleName, "  ---->" + Gson().toJson(msg))
+            Log.w(o.javaClass.simpleName, "  ---->" + msg)
         }
     }
 
     fun e(o: Any, msg: Any) {
         if (output_level <= e) {
-            Log.e(o.javaClass.simpleName, "  ----> " + Gson().toJson(msg))
+            Log.e(o.javaClass.simpleName, "  ----> " + msg)
         }
     }
 
     fun a(o: Any, msg: Any) {
-        if (output_level <= a) {
-            Log.wtf(o.javaClass.simpleName, "  ----> " + Gson().toJson(msg))
-        }
+        if (output_level <= a)
+            Log.wtf(o.javaClass.simpleName, "  ----> " + msg)
     }
 }

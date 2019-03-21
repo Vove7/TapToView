@@ -1,1 +1,1 @@
-include ':app', ':tap2view', ':vog'
+include ':app', ':tap2view'

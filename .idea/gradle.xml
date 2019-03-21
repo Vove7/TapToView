@@ -10,7 +10,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/tap2view" />
-            <option value="$PROJECT_DIR$/vog" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

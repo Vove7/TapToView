@@ -13,7 +13,7 @@ import android.widget.TextView
 import cn.vove7.tap2view.OnTapEvent
 import cn.vove7.tap2view.PopUtil
 import cn.vove7.tap2view.Tap2View
-import cn.vove7.vog.Vog
+import cn.vove7.tap2view.Vog
 
 class MainActivity : AppCompatActivity(), OnTapEvent {
     lateinit var textView: TextView

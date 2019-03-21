@@ -15,7 +15,7 @@ import cn.vove7.tap2view.PopUtil
 import cn.vove7.tap2view.Tap2View
 import cn.vove7.taptoview.adapter.Data
 import cn.vove7.taptoview.adapter.DemoListAdapter
-import cn.vove7.vog.Vog
+import cn.vove7.tap2view.Vog
 
 
 class ListActivity : AppCompatActivity() {

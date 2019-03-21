@@ -3,7 +3,6 @@ package cn.vove7.tap2view
 import android.os.Handler
 import android.view.MotionEvent
 import android.view.View
-import cn.vove7.vog.Vog
 import java.lang.Math.abs
 
 /**
